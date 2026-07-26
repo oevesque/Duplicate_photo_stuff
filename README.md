@@ -1,5 +1,7 @@
 # Duplicate_photo_stuff
 identifier facilement vos photos et vidéos en doublons. Permet surtout de trier 1 répertoire vis à vis du catalogue total.
+il y a plein d'autres programmes qui marchent tres bien permettant de repérer les doublons, mais je n'en ai trouvé aucun qui permette de comparer spécifiquement 1 répertoire vis à vis du catalogue total.
+
 
 Application de bureau (Windows) pour **détecter et supprimer les photos et vidéos en double** dans une collection répartie sur plusieurs disques, sauvegardes, exports Google Takeout, cartes SD, etc.
 
@@ -277,4 +279,5 @@ Oui, mais l'indexation sera plus lente (lecture réseau/USB). Si le disque est d
 ## Licence
 
 Projet personnel distribué en l'état, sans garantie.
+Développé avec Claude Code 5
 
