@@ -275,6 +275,29 @@ Jamais. Les seules opérations sur le disque sont des **déplacements** que vous
 Oui, mais l'indexation sera plus lente (lecture réseau/USB). Si le disque est déconnecté lors d'une réindexation, ses fichiers seront considérés comme disparus et retirés de la base : décochez plutôt **Actif** ou retirez temporairement le répertoire de la liste avant de relancer une indexation.
 
 ---
+## Captures d'écran
+
+<p align="center">
+  <img src="docs/screenshots/onglet2-recherche.png" width="900" alt="Recherche de doublons photo">
+  <br><em>Onglet 2 — Recherche de doublons photo : liste des fichiers avec doublons, détail des copies et aperçus</em>
+</p>
+
+<details>
+<summary><b>Voir les autres captures</b></summary>
+
+<p align="center">
+  <img src="docs/screenshots/onglet1-indexation.png" width="900" alt="Indexation des répertoires">
+  <br><em>Onglet 1 — Indexation : gestion des répertoires avec les cases Récursif et Actif</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/comparaison-visuelle.png" width="900" alt="Comparaison visuelle côte à côte">
+  <br><em>Comparaison visuelle côte à côte : zoom à la molette et défilement synchronisé</em>
+</p>
+
+</details>
+
+---
 
 ## Licence
 
