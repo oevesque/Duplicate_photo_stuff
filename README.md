@@ -3,7 +3,7 @@ identifier facilement vos photos et vidéos en doublons. Permet surtout de trier
 il y a plein d'autres programmes qui marchent tres bien permettant de repérer les doublons, mais je n'en ai trouvé aucun qui permette de comparer spécifiquement 1 répertoire vis à vis du catalogue total.
 
 
-Application de bureau (Windows) pour **détecter et supprimer les photos et vidéos en double** dans une collection répartie sur plusieurs disques, sauvegardes, exports Google Takeout, cartes SD, etc.
+Application de bureau (normalement multiplateforme, utilisé seulement sous Windows) pour **détecter et supprimer les photos et vidéos en double** dans une collection répartie sur plusieurs disques, sauvegardes, exports Google Takeout, cartes SD, etc.
 
 Contrairement à un simple comparateur de fichiers, DoublonPhoto utilise des **hashes perceptuels** : il détecte non seulement les copies bit-à-bit identiques, mais aussi les mêmes photos réencodées, redimensionnées, recompressées, tournées ou légèrement recadrées.
 
