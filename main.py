@@ -8,7 +8,7 @@ import numpy as np
 from datetime import datetime, timedelta
 
 from PySide6.QtCore import Qt, QThread, Signal, QObject, QSettings, QUrl, QByteArray, QMimeData
-from PySide6.QtGui import QPixmap, QImage, QAction, QKeySequence, QShortcut
+from PySide6.QtGui import QPixmap, QImage, QAction, QKeySequence, QShortcut, QDesktopServices
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QProgressBar, QFileDialog, QTabWidget,
@@ -24,6 +24,26 @@ from indexer import (
     batch_hamming_distances, compute_color_histogram, histogram_similarity,
     video_similarity_distance,
 )
+
+
+def open_path(path):
+    """Open a file or folder with the OS default application (cross-platform)."""
+    if not path or not os.path.exists(path):
+        return False
+    return QDesktopServices.openUrl(QUrl.fromLocalFile(path))
+
+
+def set_cut_mime_effect(mime):
+    """Flag clipboard content as a 'cut' (move) operation.
+
+    Only Windows Explorer understands the 'Preferred DropEffect' format; other
+    file managers rely solely on the URL list, which is already set.
+    """
+    if sys.platform != "win32":
+        return
+    # DROPEFFECT_MOVE = 2
+    effect = QByteArray(struct.pack("<I", 2))
+    mime.setData('application/x-qt-windows-mime;value="Preferred DropEffect"', effect)
 
 
 def _parse_taken_at(s):
@@ -997,8 +1017,8 @@ class QueryTab(QWidget):
         path = item.data(0, Qt.UserRole)
         if isinstance(path, tuple):
             path = path[0].path
-        if isinstance(path, str) and os.path.exists(path):
-            os.startfile(path)
+        if isinstance(path, str):
+            open_path(path)
 
     def _on_tree_context_menu(self, pos):
         tree = self.sender()
@@ -1022,9 +1042,7 @@ class QueryTab(QWidget):
         if chosen == act_cut:
             self._cut_to_clipboard(tree)
         elif chosen == act_open:
-            folder = os.path.dirname(path)
-            if os.path.isdir(folder):
-                os.startfile(folder)
+            open_path(os.path.dirname(path))
         elif chosen == act_copy:
             folder = os.path.dirname(path)
             QApplication.clipboard().setText(folder)
@@ -1047,10 +1065,7 @@ class QueryTab(QWidget):
         urls = [QUrl.fromLocalFile(p) for p in paths]
         mime = QMimeData()
         mime.setUrls(urls)
-        # "Preferred DropEffect" tells Windows Explorer to treat the paste
-        # as a move (cut) instead of a copy. DROPEFFECT_MOVE = 2.
-        effect = QByteArray(struct.pack("<I", 2))
-        mime.setData('application/x-qt-windows-mime;value="Preferred DropEffect"', effect)
+        set_cut_mime_effect(mime)
         QApplication.clipboard().setMimeData(mime)
         sb = self.window().statusBar()
         if sb:
@@ -1131,9 +1146,7 @@ class QueryTab(QWidget):
             label.setText("Apercu non disponible")
 
     def _open_preview_path(self, label):
-        path = label.property("preview_path")
-        if path and os.path.exists(path):
-            os.startfile(path)
+        open_path(label.property("preview_path"))
 
     def _rescale_preview(self, label):
         pixmap = label.property("full_pixmap")
@@ -1368,8 +1381,7 @@ class QueryTab(QWidget):
             return
         path = items[0].data(0, Qt.UserRole)
         if path:
-            folder = os.path.dirname(path)
-            os.startfile(folder)
+            open_path(os.path.dirname(path))
 
     def _compare_selected(self):
         left_items = self.tree.selectedItems()
@@ -1660,8 +1672,8 @@ class VideoTab(QWidget):
         path = item.data(0, Qt.UserRole)
         if isinstance(path, tuple):
             path = path[0].path
-        if isinstance(path, str) and os.path.exists(path):
-            os.startfile(path)
+        if isinstance(path, str):
+            open_path(path)
 
     def _on_tree_context_menu(self, pos):
         tree = self.sender()
@@ -1685,9 +1697,7 @@ class VideoTab(QWidget):
         if chosen == act_cut:
             self._cut_to_clipboard(tree)
         elif chosen == act_open:
-            folder = os.path.dirname(path)
-            if os.path.isdir(folder):
-                os.startfile(folder)
+            open_path(os.path.dirname(path))
         elif chosen == act_copy:
             folder = os.path.dirname(path)
             QApplication.clipboard().setText(folder)
@@ -1710,8 +1720,7 @@ class VideoTab(QWidget):
         urls = [QUrl.fromLocalFile(p) for p in paths]
         mime = QMimeData()
         mime.setUrls(urls)
-        effect = QByteArray(struct.pack("<I", 2))
-        mime.setData('application/x-qt-windows-mime;value="Preferred DropEffect"', effect)
+        set_cut_mime_effect(mime)
         QApplication.clipboard().setMimeData(mime)
         sb = self.window().statusBar()
         if sb:
@@ -1798,9 +1807,7 @@ class VideoTab(QWidget):
             label.setText("Apercu non disponible")
 
     def _open_preview_path(self, label):
-        path = label.property("preview_path")
-        if path and os.path.exists(path):
-            os.startfile(path)
+        open_path(label.property("preview_path"))
 
     def _rescale_preview(self, label):
         pixmap = label.property("full_pixmap")
@@ -2034,8 +2041,7 @@ class VideoTab(QWidget):
             return
         path = items[0].data(0, Qt.UserRole)
         if path:
-            folder = os.path.dirname(path)
-            os.startfile(folder)
+            open_path(os.path.dirname(path))
 
     def refresh(self):
         self._refresh_dirs()
