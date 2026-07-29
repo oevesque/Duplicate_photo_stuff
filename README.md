@@ -74,7 +74,6 @@ Contrairement à un simple comparateur de fichiers, DoublonPhoto utilise des **h
 ## Installation
 
 ### Prérequis
-- Windows
 - Python 3.10 ou supérieur
 
 ### Étapes
